@@ -1,15 +1,4 @@
 
-// let getPreguntas = async () => {
-//     const response = await fetch ("https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=boolean")
-//     const jsonData = await response.json()
-//     console.log(jsonData.results[0])
-
-//     for ( let i = ; i < jsonData.questions.length; i++){
-//         console.log (`las preguntas son: ${jsonData.questions[i]}`)
-//     }
-// }
-
-
 // url sola = https://opentdb.com/api.php + (cantidad preguntas) ?amount=10 + (categoria) &category=17 + (dificultad) &difficulty=medium + (tipo) &type=boolean
 // https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple
 
@@ -18,9 +7,11 @@ const categoryOption = document.getElementById ('inputGroupSelect01');
 const difficultyOption = document.getElementById ('inputGroupSelect02');
 const typeOption = document.getElementById ('inputGroupSelect03'); 
 const trivia = document.getElementById ('info_trivia');
-const impCategoria = document.getElementById ('categoria_seleccionada');
-const pregunta = document.getElementById ('container_pregunta');
-const respuestas = document.getElementById ('container_respuestas');
+const tuPuntaje = document.getElementById ('puntaje_total')
+
+let respuestasTexto = '';
+let arrayRespuestasIncorrectas = '';
+let respuestasCorrecta = '';
 
 empezar.addEventListener ('click', buscarPreguntas);
 
@@ -53,7 +44,6 @@ function mostrarTrivia (response){
     const {results} = response;
     console.log (results)
 
-
     results.forEach (i => {
         
         console.log (i)
@@ -63,19 +53,50 @@ function mostrarTrivia (response){
 
         trivia.append (preguntaTexto)
         
-        const arrayRespuestasIncorrectas = i.incorrect_answers;
-        const respuestasCorrecta = i.correct_answer;
+        let arrayRespuestasIncorrectas = i.incorrect_answers;
+        let respuestasCorrecta = i.correct_answer;
         let arrayTodasRespuestas = arrayRespuestasIncorrectas.concat(respuestasCorrecta);
+
         arrayTodasRespuestas.sort().reverse();
+
         arrayTodasRespuestas.forEach (i => {
-            const respuestasTexto = document.createElement("button");
+
+            let respuestasTexto = document.createElement("button");
+            respuestasTexto.disabled = false;
+            respuestasTexto.type = 'submit';
+            respuestasTexto.id = 'button_respuesta'
             respuestasTexto.textContent = i;
             trivia.append (respuestasTexto) 
-        })    
-             
-        console.log (arrayTodasRespuestas)
-    })
 
+            let contador = 0
+
+            respuestasTexto.addEventListener ('click', function(){
+
+                arrayTodasRespuestas.forEach (a => {
+                    
+                    console.log (a)
+                
+                })
+
+                respuestasTexto.disabled = true;
+                respuestasTexto.style.backgroundColor = 'rgb(0, 221, 255)';  
+                respuestasTexto.style.color = 'rgb(0, 0, 0)';           
+
+                if (respuestasTexto.textContent == respuestasCorrecta){
+                    contador = contador + 100
+                } else {
+                    contador = 0
+                }
+
+                let puntaje = document.createElement("div");
+                puntaje.textContent = (`${contador}`)
+
+                // let puntaje = document.getElementById ('puntaje_total').innerHTML;
+                // document.getElementById ('puntaje_total').innerHTML = (`${contador}`)
+
+                tuPuntaje.append(puntaje)
+            })
+        })        
+    })    
 }
-
 
