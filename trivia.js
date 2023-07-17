@@ -9,6 +9,7 @@ const typeOption = document.getElementById ('inputGroupSelect03');
 const trivia = document.getElementById ('info_trivia');
 const tuPuntaje = document.getElementById ('puntaje_total')
 
+
 let respuestasTexto = '';
 let arrayRespuestasIncorrectas = '';
 let respuestasCorrecta = '';
@@ -45,8 +46,6 @@ function mostrarTrivia (response){
     console.log (results)
 
     results.forEach (i => {
-        
-        console.log (i)
 
         const preguntaTexto = document.createElement("div");
         preguntaTexto.textContent = i.question;
@@ -68,13 +67,13 @@ function mostrarTrivia (response){
             respuestasTexto.textContent = i;
             trivia.append (respuestasTexto) 
 
-            let contador = 0
+            let contador = 0;
 
             respuestasTexto.addEventListener ('click', function(){
 
                 arrayTodasRespuestas.forEach (a => {
                     
-                    console.log (a)
+                    a.disabled = true; 
                 
                 })
 
@@ -89,7 +88,7 @@ function mostrarTrivia (response){
                 }
 
                 let puntaje = document.createElement("div");
-                puntaje.textContent = (`${contador}`)
+                puntaje.textContent = (`${contador}`) 
 
                 // let puntaje = document.getElementById ('puntaje_total').innerHTML;
                 // document.getElementById ('puntaje_total').innerHTML = (`${contador}`)
@@ -100,3 +99,4 @@ function mostrarTrivia (response){
     })    
 }
 
+//  imprimir fuera del forEach (puntaje)
